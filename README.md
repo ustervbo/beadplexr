@@ -1,5 +1,7 @@
 # beadplexr
 
+[![Travis-CI Build Status](https://travis-ci.org/ustervbo/beadplexr.svg?branch=master)](https://travis-ci.org/ustervbo/beadplexr)
+
 Reproducible and easy analysis and evaluation of LEGENDplex, CBA, and MACSPlex experiments.
 
 The companies behind the above beadplex systems, provide their own software for the analysis of the generated data. However, the strong dependence on manual interaction make the respective solutions labour insensitive and above all not always reproducible.
