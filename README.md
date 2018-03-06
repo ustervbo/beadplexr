@@ -10,6 +10,9 @@ The companies behind the above beadplex systems, provide their own software for 
 # The development version from GitHub:
 # install.packages("devtools")
 devtools::install_github("ustervbo/beadplexr")
+#
+# Or with vignettes built
+devtools::install_github("ustervbo/beadplexr", build_vignettes = TRUE)
 ```
 
 ## Getting started
