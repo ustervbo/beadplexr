@@ -1,4 +1,5 @@
 ^packrat/
+^cran-comments.md
 ^\.Rprofile$
 ^.*\.Rproj$
 ^\.Rproj\.user$
