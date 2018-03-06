@@ -9,10 +9,10 @@
 * [Pass] Windows, R devel: http://builder.r-hub.io/status/beadplexr_0.0.0.9000.tar.gz-0d7139a7001c4b52a8eb61c48ebde03a
 * [Pass] Debian, R release: http://builder.r-hub.io/status/beadplexr_0.0.0.9000.tar.gz-24afd509009f4a1589502e48ff4f43d6
 * [Pass] Debian, R devel: http://builder.r-hub.io/status/beadplexr_0.0.0.9000.tar.gz-1b717b454b944e879c9439cda8fdd102
-* [Pass] Fedora, R devel: http://builder.r-hub.io/status/beadplexr_0.0.0.9000.tar.gz-52d38adc50864e958b3984060b953a5e
-* [Pass] Ubuntu, R devel: http://builder.r-hub.io/status/beadplexr_0.0.0.9000.tar.gz-872fdf827a9144f59fb7fd5beca47a1d
-* [Pass] MacOS, R release: http://builder.r-hub.io/status/beadplexr_0.0.0.9000.tar.gz-644f35591ef64c4ab938ec0ef0cfde33
 * [Fail] Ubuntu, R relase: http://builder.r-hub.io/status/beadplexr_0.0.0.9000.tar.gz-0b397672d0384a94ad70881b3e9b8f6f
+* [Pass] Ubuntu, R devel: http://builder.r-hub.io/status/beadplexr_0.0.0.9000.tar.gz-872fdf827a9144f59fb7fd5beca47a1d
+* [Pass] Fedora, R devel: http://builder.r-hub.io/status/beadplexr_0.0.0.9000.tar.gz-52d38adc50864e958b3984060b953a5e
+* [Pass] MacOS, R release: http://builder.r-hub.io/status/beadplexr_0.0.0.9000.tar.gz-644f35591ef64c4ab938ec0ef0cfde33
 
 ## R CMD check results
 With the exception of a single platform, there were no ERRORs, WARNINGs, or NOTEs.
