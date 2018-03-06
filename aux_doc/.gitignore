@@ -1,4 +1,4 @@
 miltinyi_dot_plot.pdf
 cba_dot_plot.pdf
-clust_method_cache/.*
-clust_method_files/.*
+clust_method_cache
+clust_method_files
