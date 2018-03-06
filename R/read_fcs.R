@@ -123,10 +123,10 @@ read_fcs <- function(.file_name, .fsc_ssc = c("FSC-A", "SSC-A"), .bead_channels 
 
 #' Remove boundary events.
 #'
-#' A wraper around application of \code{flowCore}'s \code{boundaryFilter}.
+#' A wrapper around application of \code{flowCore}'s \code{boundaryFilter}.
 #'
 #' @param .flow_frame A \code{flowFrame}. Usually the result of \code{read.FCS} from \code{flowCore}.
-#' @param .channels A character vector with the chanels to apply the filter to (mostly just forward and side scatter).
+#' @param .channels A character vector with the channels to apply the filter to (mostly just forward and side scatter).
 #'
 #' @return A \code{FlowFrame} with border events removed.
 #'
@@ -288,7 +288,7 @@ as_data_frame_flow_frame <- function(.flow_frame, .channels = NULL){
 #' Channels with bead events are transformed using \code{flowCore}'s \code{arcsinhTransform()}.
 #'
 #' @param .flow_frame A \code{flowFrame}. Usually the result of \code{read.FCS} from \code{flowCore}.
-#' @param .bead_channels A character vector of the length of 2 with the names of the chanels to transform.
+#' @param .bead_channels A character vector of the length of 2 with the names of the channels to transform.
 #'
 #' @return A \code{flowFrame} with the beads channels transformed
 #'

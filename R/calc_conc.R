@@ -3,9 +3,9 @@
 #' Given a start concentration and dilution factor, the concentration of the given standard samples is calculated
 #'
 #' @param .standard_sample a vector giving the standard samples. The sample with
-#'   the highest value is given the start ceoncentration, and a
+#'   the highest value is given the start concentration, and a
 #'   `.standard_sample` with the value of 0, is set to 0 if it exists. See
-#'   Details for details on how order is assesed.
+#'   Details for details on how order is assessed.
 #' @param .start_concentration a numeric vector giving the initial standard
 #'   concentration. If longer than one the maximum value is taken as start
 #'   concentration.
@@ -32,7 +32,7 @@
 #' [s0] = 0
 #' ```
 #' It might happen, that a dilution step is missing in which case the dilution
-#' is corrected to accomodate the missing step. However, since it is inspired
+#' is corrected to accommodate the missing step. However, since it is inspired
 #' guess work and out of the ordinary, a warning is thrown, see Examples.
 #'
 #' @section Standard sample order:
@@ -45,8 +45,8 @@
 #' dilution.
 #'
 #' To avoid this problem, the vector is split into two: one containing numerical
-#' values and one containing alphabetical. Eact vector is then sorted
-#' appripriately and combined, see Examples.
+#' values and one containing alphabetical. Each vector is then sorted
+#' appropriately and combined, see Examples.
 #'
 #' @return A numeric vector
 #' @export
@@ -137,7 +137,7 @@ calc_std_conc <- function(.standard_sample, .start_concentration, .dilution_fact
 
 #' Fit a standard curve
 #'
-#' Fit a logistic function to the standard concntrations.
+#' Fit a logistic function to the standard concentrations.
 #'
 #' @param .data A tidy data.frame.
 #' @param .parameter A character giving the name of column(s) where populations

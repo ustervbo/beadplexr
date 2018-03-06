@@ -398,7 +398,7 @@ identify_analyte <-  function(.data,
 #'   analyte ID. If the column exists it will be silently dropped.
 #' @param .cluster_column_name A character giving the name of the column where
 #'   the clusters are identified. Will be dropped from the data.frame.
-#' @param .desc A boolean giving whether the sort order is decending.
+#' @param .desc A boolean giving whether the sort order is descending.
 #'
 #' @return A _data.frame_ with cluster names instead of cluster ids.
 #'
@@ -473,7 +473,7 @@ assign_analyte_id <- function(.data, .parameter,
     dplyr::select(-dplyr::one_of(.cluster_column_name))
 }
 
-#' Identify bead populaions
+#' Identify bead populations
 #'
 #' Convenience function to identify analytes in a subset
 #'

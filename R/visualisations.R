@@ -7,7 +7,7 @@
 #' @param .x,.y Character vector with the column name for the variable to plot
 #'   on the x or y-axis.
 #' @param .beads Character vector to with the column name with identification of
-#'   beads. If used it wil show up with the aesthetic 'colour'. Defaults to not
+#'   beads. If used it will show up with the aesthetic 'colour'. Defaults to not
 #'   being used.
 #' @param .plot_distinct Boolean to decide if only distinct events should be
 #'   plotted. If used, the number of data points might be greatly reduced which

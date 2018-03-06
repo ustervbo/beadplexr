@@ -1,11 +1,11 @@
 #' Load panel information
 #'
 #' The panel information are stored in \code{resources} in the package directory
-#' and cam be loaded by provi
+#' and can be loaded by providing a file or panel name, or a search pattern
 #'
-#' @param .file_name Charcter vector giving the name of an external panel info
+#' @param .file_name Character vector giving the name of an external panel info
 #'   file. See below for the expected components.
-#' @param .panel_name Charcter vector giving the name of the panel. See below
+#' @param .panel_name Character vector giving the name of the panel. See below
 #'   for accepted panel names.
 #' @param .panel_pattern The pattern to look for. Can be a regular expression.
 #'
@@ -31,7 +31,7 @@
 #'   The panel information files are formatted in YAML. It has three main parts:
 #'   - Some general information about the panel - The order of the major bead
 #'   groups in the forward and side scatter - Analytes, where each bead ID is
-#'   listed for each major bead group. The bead IDs are further somplemented
+#'   listed for each major bead group. The bead IDs are further complemented
 #'   with the name of the analyte and the start concentration of the standard
 #'   value
 #'
@@ -85,7 +85,7 @@ load_panel <- function(.file_name = NULL, .panel_name = NULL, .panel_pattern = N
 
 #' Get file name form panel name
 #'
-#' COnversion from panel name to internal panel info file name
+#' Conversion from panel name to internal panel info file name
 #'
 #' @param .panel_name Character vector giving the name of the panel
 #'

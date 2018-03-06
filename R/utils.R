@@ -187,7 +187,7 @@ dist_chebyshev <- function(x, diag = FALSE, upper =FALSE) {
 #'
 #' @param .analytes The named list to be cast. It usually is loaded using
 #'   [load_panel()]. See Details for expected structure.
-#' @param .id_bead,.id_analyte The name of the column to hold the bead group and the analyte ID, respectivelz.
+#' @param .id_bead,.id_analyte The name of the column to hold the bead group and the analyte ID, respectively.
 #'
 #' @details
 #'
@@ -195,7 +195,7 @@ dist_chebyshev <- function(x, diag = FALSE, upper =FALSE) {
 #' list with named elements `name` and `concentration`. The name of the `list`
 #' with the analyte specific information is the analyte ID.
 #'
-#' Because of the particular setup of the LegendPlex assay with two bead groups,
+#' Because of the particular setup of the LEGENDplex assay with two bead groups,
 #' the analytes are expected to be wrapped in another `list`.
 #'
 #' @return A `data-frame`

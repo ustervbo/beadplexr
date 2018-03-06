@@ -81,7 +81,7 @@ do_find_turning_points <- function(.x,
 #' @param .x A numeric vector or a list of numeric vectors. If the list is
 #'   named, the names become column names in the returned data.frames
 #' @param .which A character indicating the values of interest.
-#' @param .return A charcter giving the desired return type.
+#' @param .return A character giving the desired return type.
 #' @param .adjust A numeric giving the adjustment to the `adjust` argument of [stats::density()].
 #' @inheritDotParams approx_adjust .lower .upper .step
 #'
@@ -166,7 +166,7 @@ turning_point <- function(.x,
 #'
 #' @details
 #' This function finds the first value of the [stats::density()] `adjust`
-#' argument which gived the `.k` number of clusters. It it quite crude in that
+#' argument which gives the `.k` number of clusters. It it quite crude in that
 #' every value of adjust from `.lower` to `.upper` is tested until the desired
 #' number of clusters is found. A cluster is defined by a peak, and should no
 #' suitable `adjust` value be found, NA is returned.
