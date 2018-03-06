@@ -6,7 +6,7 @@ output:
   rmarkdown::html_vignette:
     toc: true
 vignette: >
-  %\VignetteIndexEntry{Analysis of LEGENDplex data with beadplexr}
+  %\VignetteIndexEntry{LEGENDplex-beadplexr}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
