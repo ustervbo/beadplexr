@@ -42,7 +42,7 @@
 #'       applied}
 #'       \item{A search string}{The first matrix found within the keywords
 #'       matching the given search string is applied. The search string can be a
-#'       regex}
+#'       regular expression}
 #'     }
 #'   }
 #'   \item{NULL}{Nothing is done}
@@ -363,7 +363,7 @@ transform_bead_channels <- function(.flow_frame, .bead_channels){
 #'       applied}
 #'       \item{A search string}{The first matrix found within the keywords
 #'       matching the given search string is applied. The search string can be a
-#'       regex}
+#'       regular expression}
 #'     }
 #'   }
 #'   \item{NULL}{Nothing is done}
