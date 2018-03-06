@@ -1,0 +1,100 @@
+---
+title: "Beadplexr overview"
+author: "Ulrik Stervbo"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.width = 10)
+```
+
+```{r, message=FALSE}
+library(mvbutils)
+library(beadplexr)
+
+library(tibble)
+library(dplyr)
+library(tidyr)
+library(ggnetwork)
+```
+
+```{r plot_function_network}
+plot_function_network <- function(.data){
+ggnetwork(.data$funmat, layout = "fruchtermanreingold", cell.jitter = 0.75, arrow.gap = 0.06) %>% 
+  ggplot() +
+  aes(x, y, xend = xend, yend = yend) +
+    geom_edges(arrow = arrow(length = unit(6, "pt"), type = "closed")) +
+    # geom_nodes(size = 12, color = "white") +
+    # geom_nodetext(aes(label = vertex.names)) +
+    geom_nodelabel(aes(label = vertex.names)) +
+    theme_blank()  
+}
+```
+
+# All visible functions
+```{r}
+foodweb(where = "package:beadplexr")
+```
+
+# Read FACS data
+
+```{r}
+foodweb(funs = find.funs(asNamespace("beadplexr")), 
+        where = asNamespace("beadplexr"), 
+        rprune = "fcs",
+        lwd = 2, color.lines = FALSE)
+```
+
+# Read Panel info
+
+```{r}
+foodweb(funs = find.funs(asNamespace("beadplexr")), 
+        where = asNamespace("beadplexr"), 
+        rprune = "panel",
+        lwd = 2, color.lines = FALSE)
+```
+
+
+# FACS plot
+
+```{r}
+foodweb(funs = find.funs(asNamespace("beadplexr")), 
+        where = asNamespace("beadplexr"), 
+        prune = "facs_plot",
+        lwd = 2, color.lines = FALSE)
+```
+
+# Identify analytes
+
+## Legendplex
+```{r, warning=FALSE}
+foodweb(funs = find.funs(asNamespace("beadplexr")), 
+        where = asNamespace("beadplexr"), 
+        rprune = "identify_legendplex", lwd = 2, color.lines = FALSE)
+```
+
+## MACSplex and CBA
+```{r, warning=FALSE}
+foodweb(funs = find.funs(asNamespace("beadplexr")), 
+        where = asNamespace("beadplexr"), 
+        rprune = "identify_cba_macsplex", lwd = 2, color.lines = FALSE)
+```
+
+# Despecle
+
+```{r}
+foodweb(funs = find.funs(asNamespace("beadplexr")), 
+        where = asNamespace("beadplexr"), 
+        prune = "despeckle",
+        lwd = 2, color.lines = FALSE)
+```
+
+# Concentrations
+
+```{r}
+foodweb(funs = find.funs(asNamespace("beadplexr")), 
+        where = asNamespace("beadplexr"), 
+        prune = "calc_std_conc",
+        lwd = 2, color.lines = FALSE)
+```

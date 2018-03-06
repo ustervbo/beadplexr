@@ -1,0 +1,154 @@
+---
+title: "beadplexr with CBA and MACSPlex assays"
+author: "Ulrik Stervbo"
+date: "`r Sys.Date()`"
+output: 
+  rmarkdown::html_vignette:
+    toc: true
+vignette: >
+  %\VignetteIndexEntry{beadplexr with CBA and MACSPlex assays}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# Introduction
+
+This document demonstrates the potential usefulness of **beadplexr** with data generated with the CBA assay system from BD, and the MACSPlex assay system from Miltenyi Biotec. The package has been tested with assay data from the two systems. Unfortunately, I cannot share the data - for demonstration purposes I have simulated data for the two systems. The simulated data is deliberately noisy, and do not reflect the true quality of the respective assays. The sole purpose of the simulated data is to mimic the two dimensional bead identification.
+
+# Load and view the data
+```{r}
+library(beadplexr)
+library(dplyr)
+library(ggplot2)
+data(simplex)
+```
+
+## The MACSPlex-like data
+
+The data from the CBA system is similar to the data from the MACSPlex system: there is a single population in the forward-side scatter and 10 populations separated by brightness of FITC and PE. The concentration of the analytes are given in the APC channel.
+
+```{r, fig.show='hold',}
+mplex_data <- simplex[["mplex"]]
+
+mplex_data %>% 
+facs_plot(.x = "FSC", .y = "SSC", .type = "hex")
+
+mplex_data %>% 
+facs_plot(.x = "FITC", .y = "PE", .type = "hex")
+```
+
+## The CBA-like data
+
+There is a single bead population in the forward-side scatter and up to 30 bead populations separated by the brightness of APC and APC-Cy7. The concentration of the analytes are given in the PS channel.
+
+```{r, fig.show='hold',}
+cba_data <- simplex[["cba"]]
+
+cba_data %>% 
+facs_plot(.x = "FSC", .y = "SSC", .type = "hex")
+
+cba_data %>% 
+facs_plot(.x = "APC", .y = "APC-Cy7", .type = "hex")
+```
+
+# Analyte identification
+
+Since there is just a single population in the forward-side scatter we can jump straight to identification of the analytes. It is of course possible to decrease spurious analyte signals by focusing on true bead events in the forward-side scatter, and it might be necessary in a true experiment.
+
+## Analyte identification
+
+### MACSPlex-like
+We use the `identify_analyte()` to annotate the correct analytes in the MACSPlex-like data. The function requires the parameter `.analyte_id`, which -- in a true experiment -- correspond to some identifier given by Miltenyi Biotec. Here we just assign a number.
+
+The function also allows for removing events that are far from the centre of the analyte clusters. This is done by the parameter `.trim`. Here we set the value to `0.1` which means that 10% of the events are removed from the clusters. Excluded events are given the analyte ID `NA` and can easily be excluded from further processing.
+
+```{r, fig.width=7}
+mplex_analyte <- mplex_data %>% 
+  identify_analyte(.parameter = c("FITC", "PE"), .analyte_id = as.character(c(1:10)))
+
+mplex_analyte %>% 
+  facs_plot(.x = "FITC", .y = "PE", .beads = "analyte")
+
+mplex_analyte <- mplex_data %>% 
+  identify_analyte(.parameter = c("FITC", "PE"), .analyte_id = as.character(c(1:10)), .trim = 0.1)
+
+mplex_analyte %>% 
+  facs_plot(.x = "FITC", .y = "PE", .beads = "analyte")
+```
+
+We can now look at the intensity of the APC channel, to find the relative amount of analyte bound to each bead. In this case it makes very little sense, but we'll do it for the purpose of completeness
+
+```{r, fig.width=7}
+
+mplex_analyte %>% 
+  filter(!is.na(analyte)) %>% 
+  mutate(analyte = factor(analyte, levels = c(1:10))) %>% 
+  ggplot() +
+  aes(x = APC, fill = analyte) +
+  geom_density()+
+  facet_wrap(~ analyte)+
+  theme(legend.position = "none")
+```
+
+The trimming can also be done on the identified analytes. Here we remove 5% of the events.
+```{r, fig.width=7}
+mplex_analyte %>% 
+  # filter(!is.na(analyte)) %>% 
+  group_by(analyte) %>% 
+  trim_population(.parameter = "APC", .column_name = "analyte", .trim = 0.05) %>% 
+  ungroup() %>% 
+  mutate(analyte = factor(analyte, levels = c(1:10))) %>%
+  ggplot() +
+  aes(x = APC, fill = analyte) +
+  geom_density() +
+  facet_wrap(~ analyte) +
+  theme(legend.position = "none")
+```
+
+
+### CBA-like
+For the CBA assay system, the approach is quite similar to the MACSPlex:
+
+```{r,fig.width=7}
+cba_analyte <- cba_data %>% 
+  identify_analyte(.parameter = c("APC", "APC-Cy7"), .analyte_id = as.character(c(1:30)), .trim = 0.1)
+
+cba_analyte %>% 
+  facs_plot(.x = "APC", .y = "APC-Cy7", .beads = "analyte")
+```
+
+## ID assignment
+
+The analyte ID is assigned to each cluster, based on the order of the centre of the cluster. For analytes where the bead is identified by two fluorescent parameters it could be a little tricky, because the centres are first sorted by the **first** parameter given, and then the **second**. The order of parameters and analyte IDs matter a lot! I urge you to double check that the beads are identified as expected. Once you have everything sorted out, it should remain stable for your cytometer.
+
+For the simulated MACSPlex-like data the IDs are assigned as below.
+
+```{r}
+mplex_analyte %>% 
+  filter(!is.na(analyte)) %>% 
+  group_by(analyte) %>% 
+  summarise(`FITC mean` = mean(FITC), `PE mean` = mean(PE)) %>% 
+  arrange(`FITC mean`, `PE mean`) %>% 
+  knitr::kable()
+```
+
+## Noise reduction
+
+For the CBA-like data, some clusters are still a bit too wide, while the trimming of `0.1` made others look quite fine. The simulated data contains a bit of noise hat might interfere the the cluster identification. This noise might not be present in the a true experiment, but is included to demonstrate the removal of lonely, noisy events by the `despeckel()` functionality of **beadplexr**.
+
+```{r, warning=FALSE, fig.width=7}
+cba_analyte <- cba_data %>% 
+  despeckle(.parameter = c("APC", "APC-Cy7"), .neighbours = 2) %>% 
+  identify_analyte(.parameter = c("APC", "APC-Cy7"), .analyte_id = as.character(c(1:30)), .trim = 0.01)
+
+cba_analyte %>% 
+  facs_plot(.x = "APC", .y = "APC-Cy7", .beads = "analyte")
+```
+
+In this particular example, the `despeckle()` is a little too rough on the population in the lower left corner, and it is probably more prudent to accept a little noise on one analyte than decimation of another.
+
+# Session info
+```{r,results='markup',echo=FALSE}
+sessionInfo()
+```
+

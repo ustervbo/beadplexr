@@ -1,0 +1,417 @@
+---
+title: "Test different clustering methods"
+author: "Ulrik Stervbo"
+date: "`r Sys.Date()`"
+output: 
+  rmarkdown::html_vignette:
+    toc: true
+vignette: >
+  %\VignetteIndexEntry{beadplexr with CBA and MACSPlex assays}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r check_packages, include=FALSE}
+needed_packages <- c("beadplexr", "purrr", "dplyr", "fpc", "dbscan", "cluster", "genlasso", "KernSmooth")
+
+missing_packages <- which(!needed_packages %in% installed.packages())
+
+if(length(missing_packages) > 0){
+  missing_packages <- paste(needed_packages[missing_packages], collapse = ", ")
+  stop(paste("The following packages are missing - please install:", missing_packages))
+}
+
+```
+
+
+```{r global_options, include=FALSE}
+knitr::opts_chunk$set(warning=FALSE, message=FALSE)
+```
+
+Here I document different methods for identifying the bead groups in the forward/side scatter.
+
+## Artificial test data
+
+Load the **beadplexr** and set seed before we create some artificial data
+```{r}
+library(beadplexr)
+set.seed(12345)
+
+```
+
+
+```{r, fig.show='hold', message=FALSE, cache=TRUE}
+library(purrr)
+library(dplyr)
+create_test_data <- function(n_beads = 2500, n_noise = 2500/10, 
+                             x_range_bead = list(c(2.1e5L, 3.33e5L), c(4.1e5L, 6e5L)),
+                             y_range_bead = list(c(2.1e5L, 6e5L), c(5e5L, 1e6L)),
+                             x_range_noise = c(2e5L, 7e5L),
+                             y_range_noise = c(2e5L, 1.2e6L)){
+  
+  # .range <- c(2.1e5L, 3.33e5L)
+  .generate_data <- function(.range, .n_points){
+    # runif(.n_points, .range[1], .range[2])
+    # seq.int(min(.range), max(.range)) %>%
+    # sample(size = .n_points)
+    sample_mean <- median(.range)
+    sample_sd <- (max(.range) - min(.range))/4
+    rnorm(.n_points, mean = sample_mean, sd = sample_sd)
+    # rgamma(.n_points, shape = min(.range), rate = sample_sd) %>% log
+  }
+
+  beads_x <- lapply(x_range_bead, .generate_data, .n_points = n_beads) %>% unlist
+  beads_y <- lapply(y_range_bead, .generate_data, .n_points = n_beads) %>% unlist
+
+  noise_x <- .generate_data(x_range_noise, .n_points = n_noise) %>% unlist
+  noise_y <- .generate_data(y_range_noise, .n_points = n_noise) %>% unlist
+
+  data_frame(`FSC-A` = c(beads_x, noise_x), `SSC-A` = c(beads_y, noise_y))
+}
+
+test_data_1 <- create_test_data()
+test_data_2 <- create_test_data(x_range_bead = list(c(2.7e5L, 4.3e5L), c(4.1e5L, 6e5L)),
+                                y_range_bead = list(c(1.8e5L, 7.5e5L), c(5e5L, 1e6L)))
+
+test_data_3<- create_test_data(x_range_bead = list(c(2.1e5L, 3.33e5L), c(4.1e5L, 6e5L), c(6.0e5L, 7.0e5L)),
+                                y_range_bead = list(c(2.1e5L, 6e5L), c(5e5L, 1e6L), c(1e6L, 1.5e6L)))
+
+test_data <- list(list(.data = test_data_1,
+                       .n_clusters = 2), 
+                  list(.data = test_data_2,
+                       .n_clusters = 2), 
+                  list(.data = test_data_3,
+                       .n_clusters = 3))
+
+rm(test_data_1, test_data_2, test_data_3)
+
+test_data %>% map(function(.x){facs_plot(.x$.data)}) %>% walk(print)
+
+```
+
+### Conclusion
+
+The data below demonstrates that the better candidates are
+
+- `fpc::dbscan()`
+- `dbscan::dbscan()`
+- `fpc::trimkmeansCBI()` or `trimcluster::trimkmeans()` which is the one behind the scenes
+
+Not tested here is `apclusterK()` from the *apcluster* package for affinity propagation clustering. It is excessively slow on larger datasets, and seems to be no better than `kmeans()`.
+
+## Kmeans
+```{r, fig.show='hold', message=FALSE, cache=TRUE}
+
+test_kmeans <- function(.cur_test_set){
+  .data <- .cur_test_set$.data
+  .n_clusters <- .cur_test_set$.n_clusters
+  kmeans_res <- kmeans(.data, .n_clusters)
+  .data$clusters <- as.character(kmeans_res$cluster)
+
+  facs_plot(.data, .beads = "clusters")
+
+}
+
+test_data %>% map(test_kmeans) %>% walk(print)
+
+```
+
+Kmeans clustering is suboptimal because of the problems with clusters in close vincinity, and becaue it does not remove background.
+
+## DBscan
+
+DBSCAN requires a bit of fiddling to get the values right for the populations, but since the flow cytometer *should not* drift during the acquisition, they should work for the entire experiment.
+
+```{r, fig.show='hold', message=FALSE, cache=TRUE}
+library(fpc)
+
+test_dbscan <- function(.cur_test_set, .param){
+.eps = .param["eps"]
+.minPts = .param["minPts"]
+
+.data <- .cur_test_set$.data
+
+dbscan_res <- fpc::dbscan(.data[, c(1, 2)], eps = .eps, MinPts = .minPts, scale = TRUE)
+.data$clusters <- as.character(dbscan_res$cluster)
+
+facs_plot(.data, .beads = "clusters")
+}
+
+db_param <- list(set_1 = c(eps = 0.2, minPts = 50),
+                 set_2 = c(eps = 0.2, minPts = 50),
+                 set_3 = c(eps = 0.1, minPts = 50))
+
+test_data %>% map2(.y = db_param, test_dbscan) %>% walk(print)
+```
+
+### Package dbscan
+The above `dbscan()` from **fpc** seems a little slow, so `dbscan()` form **dbscan** is also tested:
+
+```{r, fig.show='hold', message=FALSE, cache=TRUE}
+library(dbscan)
+
+test_dbscan <- function(.cur_test_set, .param){
+.eps = .param["eps"]
+.minPts = .param["minPts"]
+
+.data <- .cur_test_set$.data
+
+dbscan_res <- dbscan::dbscan(.data[, c(1, 2)], eps = .eps, minPts = .minPts)
+.data$clusters <- as.character(dbscan_res$cluster)
+
+facs_plot(.data, .beads = "clusters")
+}
+
+db_param <- list(set_1 = c(eps = 9e4, minPts = 1000),
+                 set_2 = c(eps = 9e4, minPts = 1000),
+                 set_3 = c(eps = 5e4, minPts = 100))
+
+test_data %>% map2(.y = db_param, test_dbscan) %>% walk(print)
+```
+
+The parameters needed varies considerably between the two packages. The implementation in **fpc** might be the better, dispite the apparent speed deficiet, because it seems to follow the shape of the bead distributions better than the one in the **dbscan** package.
+
+The optimal function, is one that would yield a similar result as the `dbscan()` using just the number of groups.
+
+## Packege fpc
+
+The package **fpc** provides several cluster functions and wrappers around other functions. Here we look at potential usefull methods.
+
+### `kmeansCBI()`
+```{r, fig.show='hold', message=FALSE, cache=TRUE}
+library(fpc)
+
+test_fpcCBI <- function(.cur_test_set){
+  .data <- .cur_test_set$.data
+  .n_clusters <- .cur_test_set$.n_clusters
+
+  clust_res <- kmeansCBI(.data[, c(1, 2)], k = .n_clusters, scaling = TRUE)
+  .data$clusters <- as.character(clust_res$result$cluster)
+
+  facs_plot(.data, .beads = "clusters")
+}
+
+test_data %>% map(test_fpcCBI) %>% walk(print)
+
+```
+
+### `hclustCBI()`
+```{r, fig.show='hold', message=FALSE, cache=TRUE}
+library(fpc)
+
+test_fpcCBI <- function(.cur_test_set){
+  .data <- .cur_test_set$.data
+  .n_clusters <- .cur_test_set$.n_clusters
+
+  clust_res <- hclustCBI(.data[, c(1, 2)], k = .n_clusters, scaling = TRUE, method = "ward.D2", noisecut = 100)
+  .data$clusters <- as.character(clust_res$partition)
+
+  facs_plot(.data, .beads = "clusters")
+}
+
+test_data %>% map(test_fpcCBI) %>% walk(print)
+
+```
+
+This method seems to do a good job, with the exception of the noise which is not removed.
+
+### `claraCBI()`
+```{r, fig.show='hold', message=FALSE, cache=TRUE}
+library(fpc)
+
+test_fpcCBI <- function(.cur_test_set){
+  .data <- .cur_test_set$.data
+  .n_clusters <- .cur_test_set$.n_clusters
+
+  clust_res <- claraCBI(.data[, c(1, 2)], k = .n_clusters)
+  .data$clusters <- as.character(clust_res$result$clustering)
+
+  facs_plot(.data, .beads = "clusters")
+}
+
+test_data %>% map(test_fpcCBI) %>% walk(print)
+
+```
+
+### `pamkCBI()`
+```{r, fig.show='hold', message=FALSE, cache=TRUE}
+library(fpc)
+
+test_fpcCBI <- function(.cur_test_set){
+  .data <- .cur_test_set$.data
+  .n_clusters <- .cur_test_set$.n_clusters
+
+  clust_res <- pamkCBI(.data[, c(1, 2)], k = .n_clusters)
+  .data$clusters <- as.character(clust_res$result$pamobject$clustering)
+
+  facs_plot(.data, .beads = "clusters")
+}
+
+test_data %>% map(test_fpcCBI) %>% walk(print)
+
+```
+
+### `trimkmeansCBI()`
+```{r, fig.show='hold', message=FALSE, cache=TRUE}
+library(fpc)
+
+test_fpcCBI <- function(.cur_test_set){
+  .data <- .cur_test_set$.data
+  .n_clusters <- .cur_test_set$.n_clusters
+
+  clust_res <- trimkmeansCBI(.data[, c(1, 2)], k = .n_clusters, scaling = TRUE, runs = 1)
+  .data$clusters <- as.character(clust_res$partition)
+  .data$clusters <- ifelse(.data$clusters > .n_clusters, NA, .data$clusters)
+
+  facs_plot(.data, .beads = "clusters")
+}
+
+test_data %>% map(test_fpcCBI) %>% walk(print)
+
+```
+
+This function `trimkmeansCBI()` seems to do a good job, using just the number of clusters. It appears to work well with `runs = 1`. In case it is needed, maybe other ways of calculating the start points can be made. The default `runs = 100` makes the function *so* slow, that it is hardly practical.
+
+### `mergenormCBI()`
+```{r, fig.show='hold', message=FALSE, cache=TRUE}
+library(fpc)
+
+test_fpcCBI <- function(.cur_test_set){
+  .data <- .cur_test_set$.data
+  .n_clusters <- .cur_test_set$.n_clusters
+
+  clust_res <- mergenormCBI(.data[, c(1, 2)], k = .n_clusters)
+  .data$clusters <- as.character(clust_res$result$clustering)
+
+  facs_plot(.data, .beads = "clusters")
+}
+
+test_data %>% map(test_fpcCBI) %>% walk(print)
+
+```
+
+## Package cluster
+
+### `clara()`
+```{r, fig.show='hold', message=FALSE, cache=TRUE}
+library(cluster)
+
+test_cluster_clara <- function(.cur_test_set){
+  .data <- .cur_test_set$.data
+  .n_clusters <- .cur_test_set$.n_clusters
+
+  clust_res <- clara(.data[, c(1, 2)], k = .n_clusters, samples = 500, pamLike = TRUE)
+
+  .data$clusters <- as.character(clust_res$clustering)
+
+  facs_plot(.data, .beads = "clusters")
+}
+
+test_data %>% map(test_cluster_clara) %>% walk(print)
+
+```
+
+### `fanny()`
+```{r, fig.show='hold', message=FALSE, cache=TRUE}
+library(cluster)
+
+test_cluster_fanny <- function(.cur_test_set){
+  .data <- .cur_test_set$.data
+  .n_clusters <- .cur_test_set$.n_clusters
+
+  clust_res <- fanny(.data[, c(1, 2)], k = .n_clusters)
+
+  .data$clusters <- as.character(clust_res$clustering)
+
+  facs_plot(.data, .beads = "clusters")
+}
+
+test_data %>% map(test_cluster_fanny) %>% walk(print)
+
+```
+
+### `pam()`
+```{r, fig.show='hold', message=FALSE, cache=TRUE}
+library(cluster)
+
+test_cluster_pam <- function(.cur_test_set){
+  .data <- .cur_test_set$.data
+  .n_clusters <- .cur_test_set$.n_clusters
+
+  clust_res <- pam(.data[, c(1, 2)], k = .n_clusters)
+
+  .data$clusters <- as.character(clust_res$clustering)
+
+  facs_plot(.data, .beads = "clusters")
+}
+
+test_data %>% map(test_cluster_pam) %>% walk(print)
+
+```
+
+In general, the methods of the **cluster** package are not usefull for the same reason that the kmeans clustering is not usefull.
+
+## Fused lasso
+
+```{r, fig.show='hold', message=FALSE, cache=TRUE}
+library(genlasso)
+library(KernSmooth)
+
+.cur_test_set <- test_data[[3]]
+test_lasso <- function(.cur_test_set){
+  .data <- .cur_test_set$.data
+  .n_clusters <- .cur_test_set$.n_clusters
+
+  .data_matrix <- .data %>% 
+    dplyr::select(`FSC-A`, `SSC-A`) %>% 
+    as.matrix()
+  
+  binwidth_x <- dpik(.data_matrix[, 1])
+  binwidth_y <- dpik(.data_matrix[, 2])
+  
+  y <- .data_matrix %>% KernSmooth::bkde2D(bandwidth = c(binwidth_x, binwidth_y))
+  y <- y$fhat
+
+  # I don't know if approx speed up things a bit
+  out <- fusedlasso2d(y,approx = TRUE)
+  
+  # This works at least for the examples
+  co <- coef(out, nlam = 5)
+
+  cols <- terrain.colors(30)
+  zlim <- range(c(co$beta,y))
+
+  image(matrix(co$beta[,5],nrow=nrow(y)),col=cols,zlim=zlim,axes=FALSE)
+}
+
+test_data %>% walk(test_lasso) 
+
+```
+
+Fused lasso can be applied to the problem, but suffers two major drawbacks: It is painstakingly slow and there is little room to automate group selection. It is bacically an expensive way to reduce/remove noise in the data.
+
+```{r,eval=FALSE}
+library(apcluster)
+
+test_apclusterk <- function(.cur_test_set){
+  .data <- .cur_test_set$.data %>% sample_frac(0.2)
+  .n_clusters <- .cur_test_set$.n_clusters
+  
+  apclusterk_res <- apclusterK(negDistMat(r=2), .data, K = .n_clusters, verbose = FALSE)
+
+  .data$clusters <- apclusterk_res@clusters %>% 
+    map_df(function(.x){
+      data_frame(row_num = .x)
+    }, .id = "cluster") %>% 
+    arrange(row_num) %>% 
+    select(cluster) %>% flatten_chr()
+
+  facs_plot(.data, .beads = "clusters")
+  
+}
+
+test_data %>% map(test_apclusterk) %>% walk(print)
+
+
+```
+

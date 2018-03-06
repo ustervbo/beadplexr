@@ -1,0 +1,8 @@
+.directory
+.Rproj.user
+.Rprofile
+.Renviron
+packrat/*
+bin/*
+inst/doc
+packrat/lib*/

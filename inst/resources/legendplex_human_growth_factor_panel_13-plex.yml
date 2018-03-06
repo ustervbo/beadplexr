@@ -1,0 +1,57 @@
+panel_name: "Human Growth Factor Panel (13-plex)"
+cytokine_unit: "pg/ml"
+std_dilution: 4
+# The beads fall on some majour groups - for legendplex panels
+# there are two named A and B. The group_order element sets the
+# order of the major groups in the forward and side scatter channels.
+# In practice, then the groups are identified, the mean of the
+# forward satterchannel and the mean of the side scatter chennel
+# is calculated for each identified group and sorted by FSC and SSC
+group_order:
+- A
+- B
+# A list of Bead IDs,
+# where each bead ID consist of a list with Target name
+# and standard start concentration as value
+analytes:
+  A:
+    A4: 
+      name: "Angiopoietin-2"
+      concentration: 50000
+    A5: 
+      name: "EGF"
+      concentration: 10000
+    A6: 
+      name: "EPO"
+      concentration: 50000
+    A7: 
+      name: "FGF-basic"
+      concentration: 50000
+    A8: 
+      name: "G-CSF"
+      concentration: 50000
+    A10: 
+      name: "GM-CSF"
+      concentration: 50000
+  B:
+    B2:
+      name: "HGF"
+      concentration: 50000
+    B3:
+      name: "M-CSF"
+      concentration: 10000
+    B4:
+      name: "PDGF-AA"
+      concentration: 50000
+    B5:
+      name: "PDGF-BB"
+      concentration: 50000
+    B6:
+      name: "SCF"
+      concentration: 10000
+    B7:
+      name: "TGF-a"
+      concentration: 50000
+    B9:
+      name: "VEGF"
+      concentration: 50000
