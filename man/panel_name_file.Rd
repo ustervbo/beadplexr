@@ -13,7 +13,7 @@ panel_name_file(.panel_name)
 A character
 }
 \description{
-COnversion from panel name to internal panel info file name
+Conversion from panel name to internal panel info file name
 }
 \examples{
 \dontrun{

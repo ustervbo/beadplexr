@@ -2,7 +2,7 @@
 % Please edit documentation in R/identify_analyte.R
 \name{ident_bead_pop}
 \alias{ident_bead_pop}
-\title{Identify bead populaions}
+\title{Identify bead populations}
 \usage{
 ident_bead_pop(.analytes, .column_name = NULL, .cluster = NULL, .call_args,
   .data)

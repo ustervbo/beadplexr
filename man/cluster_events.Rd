@@ -58,9 +58,9 @@ Cluster identification with various algorithms and subsequent trimming of each c
 An alternative approach to the trimming of clusters found with \code{\link[=kmeans]{kmeans()}} is
 to use the \code{\link[trimcluster:trimkmeans]{trimcluster::trimkmeans()}}. However, being superiour
 regarding speed with few clusters, the speed of \code{trimkmeans()}
-dramatically decreases with increasing nuber of clusters.
+dramatically decreases with increasing number of clusters.
 
-Mclust and dbscan seems to do an excelent job at separating on the forward
+Mclust and dbscan seems to do an excellent job at separating on the forward
 and side scatter parameters. Mclust and clara both perform well separating
 beads in the APC channel, but clara is about 3 times faster than Mclust.
 }
@@ -77,7 +77,7 @@ Information on additional arguments passed, can be found here:
 }
 }
 
-\section{Defaut parameters to \code{clara()}}{
+\section{Default parameters to \code{clara()}}{
 
 \code{\link[cluster:clara]{cluster::clara()}} is by default called with the following parameters:
 
@@ -92,7 +92,7 @@ Information on additional arguments passed, can be found here:
 It requires some trial and error to get the right parameters for the
 density based clustering, but the parameters usually stay stable throughout an
 entire experiment and over time (assuming that there is only little drift in
-the flow cytometer). There is no gurantee that the correct number of clusters
+the flow cytometer). There is no guarantee that the correct number of clusters
 are returned, and it might be better to use this on the forward - side
 scatter discrimination.
 }
@@ -108,7 +108,7 @@ the clustering complete about 12 times faster than with 5000 events.
 
 \section{Parameters to density_cut}{
 
-This simple function works by smoothing a density function untill the desired number
+This simple function works by smoothing a density function until the desired number
 of clusters are found. The segregation of the clusters follows at the lowest
 point between two clusters.
 }

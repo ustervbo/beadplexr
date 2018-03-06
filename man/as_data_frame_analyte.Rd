@@ -11,7 +11,7 @@ as_data_frame_analyte(.analytes, .id_bead = "Bead group",
 \item{.analytes}{The named list to be cast. It usually is loaded using
 \code{\link[=load_panel]{load_panel()}}. See Details for expected structure.}
 
-\item{.id_bead, .id_analyte}{The name of the column to hold the bead group and the analyte ID, respectivelz.}
+\item{.id_bead, .id_analyte}{The name of the column to hold the bead group and the analyte ID, respectively.}
 }
 \value{
 A \code{data-frame}
@@ -24,7 +24,7 @@ Each analyte in the \code{list} passed to the function is expected to be a named
 list with named elements \code{name} and \code{concentration}. The name of the \code{list}
 with the analyte specific information is the analyte ID.
 
-Because of the particular setup of the LegendPlex assay with two bead groups,
+Because of the particular setup of the LEGENDplex assay with two bead groups,
 the analytes are expected to be wrapped in another \code{list}.
 }
 \examples{

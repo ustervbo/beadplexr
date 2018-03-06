@@ -7,10 +7,10 @@
 load_panel(.file_name = NULL, .panel_name = NULL, .panel_pattern = NULL)
 }
 \arguments{
-\item{.file_name}{Charcter vector giving the name of an external panel info
+\item{.file_name}{Character vector giving the name of an external panel info
 file. See below for the expected components.}
 
-\item{.panel_name}{Charcter vector giving the name of the panel. See below
+\item{.panel_name}{Character vector giving the name of the panel. See below
 for accepted panel names.}
 
 \item{.panel_pattern}{The pattern to look for. Can be a regular expression.}
@@ -20,7 +20,7 @@ A \code{list}
 }
 \description{
 The panel information are stored in \code{resources} in the package directory
-and cam be loaded by provi
+and can be loaded by providing a file or panel name, or a search pattern
 }
 \details{
 If an explicit \code{.file_name} is given, \code{.panel_name} and
@@ -47,7 +47,7 @@ The panel information files are formatted in YAML. It has three main parts:
 \itemize{
 \item Some general information about the panel - The order of the major bead
 groups in the forward and side scatter - Analytes, where each bead ID is
-listed for each major bead group. The bead IDs are further somplemented
+listed for each major bead group. The bead IDs are further complemented
 with the name of the analyte and the start concentration of the standard
 value
 }

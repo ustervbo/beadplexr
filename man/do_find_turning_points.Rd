@@ -10,7 +10,7 @@ do_find_turning_points(.x, .return = c("value", "index"), .adjust = 1.5,
 \arguments{
 \item{.x}{A numeric vector}
 
-\item{.return}{A charcter giving the desired return type.}
+\item{.return}{A character giving the desired return type.}
 
 \item{.adjust}{A numeric giving the adjustment to the \code{adjust} argument of \code{\link[stats:density]{stats::density()}}.}
 

@@ -21,7 +21,7 @@ analyte ID. If the column exists it will be silently dropped.}
 \item{.cluster_column_name}{A character giving the name of the column where
 the clusters are identified. Will be dropped from the data.frame.}
 
-\item{.desc}{A boolean giving whether the sort order is decending.}
+\item{.desc}{A boolean giving whether the sort order is descending.}
 }
 \value{
 A \emph{data.frame} with cluster names instead of cluster ids.

@@ -9,13 +9,13 @@ remove_boundary_events(.flow_frame, .channels)
 \arguments{
 \item{.flow_frame}{A \code{flowFrame}. Usually the result of \code{read.FCS} from \code{flowCore}.}
 
-\item{.channels}{A character vector with the chanels to apply the filter to (mostly just forward and side scatter).}
+\item{.channels}{A character vector with the channels to apply the filter to (mostly just forward and side scatter).}
 }
 \value{
 A \code{FlowFrame} with border events removed.
 }
 \description{
-A wraper around application of \code{flowCore}'s \code{boundaryFilter}.
+A wrapper around application of \code{flowCore}'s \code{boundaryFilter}.
 }
 \examples{
 \dontrun{

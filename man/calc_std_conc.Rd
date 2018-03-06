@@ -8,9 +8,9 @@ calc_std_conc(.standard_sample, .start_concentration, .dilution_factor = 4L)
 }
 \arguments{
 \item{.standard_sample}{a vector giving the standard samples. The sample with
-the highest value is given the start ceoncentration, and a
+the highest value is given the start concentration, and a
 \code{.standard_sample} with the value of 0, is set to 0 if it exists. See
-Details for details on how order is assesed.}
+Details for details on how order is assessed.}
 
 \item{.start_concentration}{a numeric vector giving the initial standard
 concentration. If longer than one the maximum value is taken as start
@@ -42,7 +42,7 @@ indicate the highest concentration and 0 the background (no analyte). The standa
 }
 
 It might happen, that a dilution step is missing in which case the dilution
-is corrected to accomodate the missing step. However, since it is inspired
+is corrected to accommodate the missing step. However, since it is inspired
 guess work and out of the ordinary, a warning is thrown, see Examples.
 }
 \section{Standard sample order}{
@@ -55,8 +55,8 @@ assigned the start concentration and the sample 'a' is then the first
 dilution.
 
 To avoid this problem, the vector is split into two: one containing numerical
-values and one containing alphabetical. Eact vector is then sorted
-appripriately and combined, see Examples.
+values and one containing alphabetical. Each vector is then sorted
+appropriately and combined, see Examples.
 }
 
 \examples{

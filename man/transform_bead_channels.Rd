@@ -9,7 +9,7 @@ transform_bead_channels(.flow_frame, .bead_channels)
 \arguments{
 \item{.flow_frame}{A \code{flowFrame}. Usually the result of \code{read.FCS} from \code{flowCore}.}
 
-\item{.bead_channels}{A character vector of the length of 2 with the names of the chanels to transform.}
+\item{.bead_channels}{A character vector of the length of 2 with the names of the channels to transform.}
 }
 \value{
 A \code{flowFrame} with the beads channels transformed

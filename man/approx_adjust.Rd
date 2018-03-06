@@ -24,7 +24,7 @@ Approximates the adjust argument to \code{stats::density()} needed to find the r
 }
 \details{
 This function finds the first value of the \code{\link[stats:density]{stats::density()}} \code{adjust}
-argument which gived the \code{.k} number of clusters. It it quite crude in that
+argument which gives the \code{.k} number of clusters. It it quite crude in that
 every value of adjust from \code{.lower} to \code{.upper} is tested until the desired
 number of clusters is found. A cluster is defined by a peak, and should no
 suitable \code{adjust} value be found, NA is returned.

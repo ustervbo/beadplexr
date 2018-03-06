@@ -32,7 +32,7 @@ one of \code{"scatter", "density", "hexbin"}.}
 \item{...}{Arguments passed to the individual functions.}
 
 \item{.beads}{Character vector to with the column name with identification of
-beads. If used it wil show up with the aesthetic 'colour'. Defaults to not
+beads. If used it will show up with the aesthetic 'colour'. Defaults to not
 being used.}
 
 \item{.plot_distinct}{Boolean to decide if only distinct events should be

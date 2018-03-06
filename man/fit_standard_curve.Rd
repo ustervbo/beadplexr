@@ -25,7 +25,7 @@ the fit, see \code{\link[drc:drm]{drc::drm()}} for details.}
 An object of class \code{drc}
 }
 \description{
-Fit a logistic function to the standard concntrations.
+Fit a logistic function to the standard concentrations.
 }
 \examples{
 

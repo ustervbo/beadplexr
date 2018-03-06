@@ -13,7 +13,7 @@ named, the names become column names in the returned data.frames}
 
 \item{.which}{A character indicating the values of interest.}
 
-\item{.return}{A charcter giving the desired return type.}
+\item{.return}{A character giving the desired return type.}
 
 \item{.adjust}{A numeric giving the adjustment to the \code{adjust} argument of \code{\link[stats:density]{stats::density()}}.}
 
