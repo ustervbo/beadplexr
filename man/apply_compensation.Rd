@@ -42,7 +42,7 @@ and "SPILLOVER". If none found the first matrix with parameter names is
 applied}
 \item{A search string}{The first matrix found within the keywords
 matching the given search string is applied. The search string can be a
-regex}
+regular expression}
 }
 }
 \item{NULL}{Nothing is done}
