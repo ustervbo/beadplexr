@@ -12,11 +12,7 @@ The companies behind the above beadplex systems, provide their own software for 
 devtools::install_github("ustervbo/beadplexr")
 #
 # Or with vignettes built
-<<<<<<< HEAD
 # devtools::install_github("ustervbo/beadplexr", build_vignettes = TRUE)
-=======
-devtools::install_github("ustervbo/beadplexr", build_vignettes = TRUE)
->>>>>>> 179897d9c8538617b9db7ca88ef9eb8df1f704c6
 ```
 
 ## Getting started
