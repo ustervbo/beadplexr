@@ -5,7 +5,7 @@
 
 ### Rbub (05.Mar.2018)
 
-* [Pass] Windows, R relase: http://builder.r-hub.io/status/beadplexr_0.0.0.9000.tar.gz-8a4d51955c9c43d5b3de780a167f68f6
+* [Pass] Windows, R release: http://builder.r-hub.io/status/beadplexr_0.0.0.9000.tar.gz-8a4d51955c9c43d5b3de780a167f68f6
 * [Pass] Windows, R devel: http://builder.r-hub.io/status/beadplexr_0.0.0.9000.tar.gz-0d7139a7001c4b52a8eb61c48ebde03a
 * [Pass] Debian, R release: http://builder.r-hub.io/status/beadplexr_0.0.0.9000.tar.gz-24afd509009f4a1589502e48ff4f43d6
 * [Pass] Debian, R devel: http://builder.r-hub.io/status/beadplexr_0.0.0.9000.tar.gz-1b717b454b944e879c9439cda8fdd102
@@ -17,7 +17,7 @@
 ## R CMD check results
 With the exception of a single platform, there were no ERRORs, WARNINGs, or NOTEs.
 
-The problematic platform was Ubuntu 16.04 LTR, R relase. Here two problems raised an error:
+The problematic platform was Ubuntu 16.04 LTR, R release. Here two problems raised an error:
 
 * 'fpc' package
   Error in dyn.load(file, DLLpath = DLLpath, ...) :
