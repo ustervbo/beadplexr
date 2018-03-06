@@ -1,7 +1,7 @@
 Package: beadplexr
 Type: Package
 Title: Analysis of Multiplex Cytometric Bead Assays
-Version: 0.0.1
+Version: 0.1.0
 Authors@R: c( person("Ulrik", "Stervbo", , "ulrik.stervbo@gmail.com", role = c("aut", "cre")))
 Description: Functions and wrappers for automatic analysis of fcs files
     resulting from a CBA, LEGENDplex, or MACSPlex experiment.
