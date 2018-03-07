@@ -63,6 +63,7 @@ The parameter \code{.method_args} is a list of key-value pairs passed to \code{\
 }
 
 \examples{
+\dontrun{
 library(beadplexr)
 library(dplyr)
 data("lplex")
@@ -92,7 +93,8 @@ annot_events \%>\%
 annot_events \%>\%
   filter(`Bead group` == "B") \%>\%
   facs_plot(.x = "FL2-H", .y = "FL6-H", .beads = "Analyte ID")
-
+}
+\dontrun{
 library(beadplexr)
 data(simplex)
 
@@ -113,7 +115,6 @@ annot_events \%>\% facs_plot(.x = "FSC", .y = "SSC")
 annot_events \%>\%
   facs_plot(.x = "APC", .y = "APC-Cy7", .beads = "Analyte ID")
 
-\dontrun{
 annot_events <- identify_cba_analyte(.data = .data,
                      .analytes = analytes,
                      .method_args = args_ident_analyte,
@@ -127,6 +128,7 @@ annot_events \%>\% facs_plot(.x = "FSC", .y = "SSC", .beads = "Bead events")
 annot_events \%>\%
   facs_plot(.x = "APC", .y = "APC-Cy7", .beads = "Analyte ID")
 }
+\dontrun{
 library(beadplexr)
 data(simplex)
 
@@ -147,7 +149,6 @@ annot_events \%>\% facs_plot(.x = "FSC", .y = "SSC")
 annot_events \%>\%
   facs_plot(.x = "FITC", .y = "PE", .beads = "Analyte ID")
 
-\dontrun{
 annot_events <- identify_macsplex_analyte(.data = .data,
                                      .analytes = analytes,
                                      .method_args = args_ident_analyte,
