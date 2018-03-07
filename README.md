@@ -1,4 +1,4 @@
-# beadplexr
+# beadplexr <img src="man/figures/logo.png" width="120px" align="right" />
 
 [![Travis-CI Build Status](https://travis-ci.org/ustervbo/beadplexr.svg?branch=master)](https://travis-ci.org/ustervbo/beadplexr)
 
