@@ -7,6 +7,8 @@ to
 
 * Reproducible and automated analysis of multiplex bead assays such as CBA, LEGENDplex, and MACSPlex. The package provides functions for streamlined reading of fcs  files, and identification of bead clusters and analyte expression. It eases the  calculation of a standard curve and the subsequent calculation of the analyte concentration.
 
+In addition, all examples of 'identify_assay_analyte' and 'facs_plot' are no longer run. This is to avoid potential notes because of long runtime.
+
 ## Test environments
 
 ### Local
