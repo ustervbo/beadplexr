@@ -45,6 +45,7 @@ NULL
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' library(beadplexr)
 #' library(dplyr)
 #' data("lplex")
@@ -74,7 +75,7 @@ NULL
 #' annot_events %>%
 #'   filter(`Bead group` == "B") %>%
 #'   facs_plot(.x = "FL2-H", .y = "FL6-H", .beads = "Analyte ID")
-#'
+#' }
 identify_legendplex_analyte <- function(.data, .analytes, .method_args){
 
   # ## Identify A and B ##
@@ -127,6 +128,7 @@ identify_legendplex_analyte <- function(.data, .analytes, .method_args){
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' library(beadplexr)
 #' data(simplex)
 #'
@@ -147,7 +149,6 @@ identify_legendplex_analyte <- function(.data, .analytes, .method_args){
 #' annot_events %>%
 #'   facs_plot(.x = "APC", .y = "APC-Cy7", .beads = "Analyte ID")
 #'
-#' \dontrun{
 #' annot_events <- identify_cba_analyte(.data = .data,
 #'                      .analytes = analytes,
 #'                      .method_args = args_ident_analyte,
@@ -174,6 +175,7 @@ identify_cba_analyte <- function(.data, .analytes, .method_args, .trim_fs = NULL
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' library(beadplexr)
 #' data(simplex)
 #'
@@ -194,7 +196,6 @@ identify_cba_analyte <- function(.data, .analytes, .method_args, .trim_fs = NULL
 #' annot_events %>%
 #'   facs_plot(.x = "FITC", .y = "PE", .beads = "Analyte ID")
 #'
-#' \dontrun{
 #' annot_events <- identify_macsplex_analyte(.data = .data,
 #'                                      .analytes = analytes,
 #'                                      .method_args = args_ident_analyte,
