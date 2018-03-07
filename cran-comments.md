@@ -1,3 +1,12 @@
+## Resubmission
+This is a resubmission. In this version I have extended the 'description' field of DESCRIPTION to provide more information. The 'description' was changed from
+
+* Functions and wrappers for automatic analysis of fcs files resulting from a CBA, LEGENDplex, or MACSPlex experiment.
+
+to
+
+* Reproducible and automated analysis of multiplex bead assays such as CBA, LEGENDplex, and MACSPlex. The package provides functions for streamlined reading of fcs  files, and identification of bead clusters and analyte expression. It eases the  calculation of a standard curve and the subsequent calculation of the analyte concentration.
+
 ## Test environments
 
 ### Local
