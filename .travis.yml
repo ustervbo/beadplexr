@@ -9,3 +9,11 @@ R: bioc-release
 bioc_required: true
 bioc_packages:
   - flowCore
+
+addons:
+  apt:
+     sources:
+     - ubuntu-toolchain-r-test
+     packages:
+     - gcc-4.8
+     - g++-4.8
