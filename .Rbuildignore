@@ -1,5 +1,5 @@
 ^packrat/
-^cran-comments.md
+^cran-comments\.md$
 ^\.Rprofile$
 ^.*\.Rproj$
 ^\.Rproj\.user$
