@@ -28,6 +28,7 @@
 #' @importFrom magrittr "%>%"
 #'
 #' @examples
+#' \dontrun{
 #' library(beadplexr)
 #'
 #' .file_name <- system.file("extdata", "K2-C07-A7.fcs",
@@ -66,6 +67,7 @@
 #'
 #' facs_hexbin(.data)
 #' facs_hexbin(.data, .bins = 30)
+#' }
 facs_plot <- function(.data, .x = "FSC-A", .y = "SSC-A", .type = c("scatter", "density1d", "density2d", "hexbin"), ...){
   .type <- match.arg(.type)
   switch(.type,

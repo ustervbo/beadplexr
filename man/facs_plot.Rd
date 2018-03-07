@@ -54,6 +54,7 @@ These plot functions are meant to provide a quick way of viewing the FACS
 data. For more control, use \code{ggplot2} directly.
 }
 \examples{
+\dontrun{
 library(beadplexr)
 
 .file_name <- system.file("extdata", "K2-C07-A7.fcs",
@@ -92,4 +93,5 @@ facs_density2d(.data, .beads = "bead_group")
 
 facs_hexbin(.data)
 facs_hexbin(.data, .bins = 30)
+}
 }
