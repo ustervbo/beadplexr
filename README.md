@@ -29,4 +29,4 @@ The package comes with a comprehensive example in the vignette 'Analysis of LEGE
 vignette("LEGENDplex-beadplexr")
 ```
 
-Or read the vignette [here](https://cran.r-project.org/web/packages/beadplexr/vignettes/legendplex-analysis.html)
+Or read the vignette [here](https://cran.r-project.org/web/packages/beadplexr/vignettes/legendplex-analysis.html).
