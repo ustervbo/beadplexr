@@ -1,17 +1,19 @@
 Package: beadplexr
 Type: Package
 Title: Analysis of Multiplex Cytometric Bead Assays
-Version: 0.1.0
+Version: 0.1.0.9000
 Authors@R: c( person("Ulrik", "Stervbo", , "ulrik.stervbo@gmail.com", role = c("aut", "cre")))
 Description: Reproducible and automated analysis of multiplex bead assays such as CBA, 
     LEGENDplex, and MACSPlex. The package provides functions for streamlined reading of fcs 
     files, and identification of bead clusters and analyte expression. It eases the 
     calculation of a standard curve and the subsequent calculation of the analyte concentration.
 License: MIT + file LICENSE
+URL: https://github.com/ustervbo/beadplexr
+BugReports: https://github.com/ustervbo/beadplexr/issues
 Encoding: UTF-8
 LazyData: true
 Depends:
-    R (>= 2.10)
+    R (>= 3.2)
 Suggests:
     knitr,
     rmarkdown,
